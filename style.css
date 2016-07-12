@@ -1,0 +1,100 @@
+
+body{
+    margin:0;
+    height:100vh;
+    font-size:0;
+    width:100%;
+}
+.font_size{
+    font-size: 4vh;
+    text-align: center;
+}
+/*----------------------*/
+.container_div{
+    background-color: darkblue;
+    display: inline-block;
+    position: relative;
+    height: 100vh;
+    width:50%;
+    left:50%;
+    transform: translate(-50%);
+}
+.output_div{
+    display: inline-block;
+    position: relative;
+    width:100%;
+    height:20%;
+}
+.input_div{
+    display: inline-block;
+    position: relative;
+    width:100%;
+    height:80%;
+}
+.screen_div{
+    display: inline-block;
+    position: relative;
+    background-color: #758AA8;
+    width:90%;
+    height:90%;
+    top:5%;
+    left:5%;
+}
+.key_div{
+    display: inline-block;
+    position: relative;
+    width:75%;
+    height:100%;
+}
+.operator_div{
+    vertical-align: top;
+    display: inline-block;
+    position: relative;
+    width:25%;
+    height:100%;
+}
+.reset_div{
+    display: inline-block;
+    position:relative;
+    width:100%;
+    height:20%;
+}
+.num_div{
+    display: inline-block;
+    position:relative;
+    width:100%;
+    height:80%;
+}
+.clear{
+    background-color: #370303;
+    display: inline-block;
+    position: relative;
+    width:45%;
+    height:100%;
+    margin: 0 2%;
+    left:1%;
+    color:white;
+}
+.num_key{
+    display: inline-block;
+    position: relative;
+    background-color: aliceblue;
+    width:30%;
+    height:22%;
+    margin: 1% 1%;
+    left: 2%;
+    top:3.5%;
+}
+.special_char{
+    background-color: #51BC9C;
+    display: inline-block;
+    position: relative;
+    width:90%;
+    height:20%;
+    left:5%;
+    top:3%;
+    margin: 3% 0;
+}
+.double_size{
+    height:30%;
+}
