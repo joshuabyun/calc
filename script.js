@@ -1,16 +1,16 @@
 /**
  * Created by Gina on 7/12/2016.
  */
-var my_caluculator = new calculator(display_value);;
+var my_caluculator = new calculator(display_value);
 
 function display_value(type, value, item){
-    //Take the value and display in the correct layout area within the DOM
+    Take the value and display in the correct layout area within the DOM
     if(value == undefined){
-        console.log("hello");
+        //console.log("hello");
         $('.screen_div').text("");
     }
     else{
-        console.log("good bye");
+        //console.log("good bye");
         $('.screen_div').text(value);
     }
     //The display of the calculation will be up to each students interpretation of how a calculator should look. If you need ideas look at your calculator on your phone.
