@@ -39,6 +39,7 @@ body{
     height:90%;
     top:5%;
     left:5%;
+    font-size:4vh;
 }
 .key_div{
     display: inline-block;
