@@ -79,7 +79,7 @@ body{
     left:1%;
     color:white;
 }
-.num_key{
+.num_key, .equal_sign{
     display: inline-block;
     position: relative;
     background-color: aliceblue;
@@ -99,6 +99,6 @@ body{
     top:3%;
     margin: 3% 0;
 }
-.double_size{
+.operator_div :last-child{
     height:30%;
 }
