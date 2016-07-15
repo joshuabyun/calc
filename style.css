@@ -41,8 +41,10 @@ body{
     height:90%;
     top:5%;
     left:5%;
-    font-size:4vh;
+    font-size:5vh;
     border-radius: 1vh;
+    word-wrap:break-word;
+    /*overflow: scroll;*/
 }
 .key_div{
     display: inline-block;
