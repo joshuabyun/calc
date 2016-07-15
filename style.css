@@ -12,7 +12,7 @@ body{
 }
 /*----------------------*/
 .container_div{
-    background-color: darkblue;
+    background-color: #46C900;
     display: inline-block;
     position: relative;
     height: 100vh;
@@ -70,7 +70,7 @@ body{
     height:80%;
 }
 .clear{
-    background-color: #370303;
+    background-color: #E5FB1A;
     display: inline-block;
     position: relative;
     width:45%;

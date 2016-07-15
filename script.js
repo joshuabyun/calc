@@ -14,11 +14,13 @@ function event_handler(){
 function num_data_obj (element){
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
         input_array[array_position-1].value+=element.text();
+        display_screen(input_array[array_position-1].value);
     }
     else{
         var a = new Object();
         a.value = element.text();
         a.type = element.attr('class');
+        display_screen(a.value);
         if(a.type =="equal_sign"){
             make_paramater(input_array);
             return;
@@ -54,11 +56,15 @@ function make_paramater(the_input_array) { //the_input_array is ultimately refer
             console.log(parseInt(num2));
             console.log(operator);
             console.log(do_math(num1,num2,operator));
-
+            result = do_math(num1,num2,operator)
+            display_screen(result);
         }
     }
 }
 
+function display_screen(element){
+    $('.screen_div').text(element);
+}
 
 function do_math(num1, num2, operator) {
     var answer;
@@ -71,7 +77,7 @@ function do_math(num1, num2, operator) {
             answer = num1 - num2;
             return answer;
             break;
-        case '*':
+        case 'X':
             answer = num1 * num2;
             return answer;
             break;
