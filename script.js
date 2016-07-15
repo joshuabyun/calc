@@ -20,7 +20,7 @@ function event_handler() {
                 clear();
             }
             else if($(this).text() == "CE"){
-                console.log("bye");
+                clear_entry();
             }
         }
     });
@@ -34,9 +34,20 @@ function clear(){
     display_screen(" ");
     console.log(input_array);
 }
+function clear_entry(){
+    //need to use splice.
+    input_array.splice(input_array.length-1);
+    if(input_array.length == 0){
+        clear();
+        return;
+    }
+    display_screen(input_array[input_array.length-1].value);
+    console.log(input_array);
+}
 
 function num_data_obj (element){ //making array of objects with type and value inside
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
+        console.log(input_array);
         input_array[array_position-1].value+=element.text();
         display_screen(input_array[array_position-1].value);
     }
@@ -51,6 +62,7 @@ function num_data_obj (element){ //making array of objects with type and value i
         }
         display_screen(a.value);
         input_array[array_position] = a;
+        console.log(input_array);
         array_position++;
     }
 }
