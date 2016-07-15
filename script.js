@@ -4,6 +4,10 @@
 
 var input_array = [];
 var array_position = 0;
+var operator;
+var num_one;
+var num_two;
+var the_answer;
 $(document).ready(event_handler);
 
 function event_handler() {
@@ -24,10 +28,14 @@ function event_handler() {
 
 function clear(){
     input_array = [];
+    num_one = null;
+    num_two = null;
+    array_position = 0;
+    display_screen(" ");
     console.log(input_array);
 }
 
-function num_data_obj (element){
+function num_data_obj (element){ //making array of objects with type and value inside
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
         input_array[array_position-1].value+=element.text();
         display_screen(input_array[array_position-1].value);
@@ -36,11 +44,12 @@ function num_data_obj (element){
         var a = new Object();
         a.value = element.text();
         a.type = element.attr('class');
-        display_screen(a.value);
-        if(a.type =="equal_sign"){
+        if(a.type =="equal_sign"){ //when equal sign is pressed
             make_parameter(input_array);
+            display_screen(the_answer);
             return;
         }
+        display_screen(a.value);
         input_array[array_position] = a;
         array_position++;
     }
@@ -49,18 +58,19 @@ function num_data_obj (element){
 function make_parameter(the_input_array){
     for(var i = 0; i < the_input_array.length ; i++){
         if(the_input_array[i].type == "special_char"){
-            var operator = the_input_array[i].value;
+            operator = the_input_array[i].value;
             console.log("operator position in the array is : " + i);
             console.log("operator is : " + operator);
-            var num_one = parseFloat(the_input_array[i-1].value);
+            num_one = parseFloat(the_input_array[i-1].value);
             console.log("num_one is : " + num_one);
-            var num_two = parseFloat(the_input_array[i+1].value);
+            num_two = parseFloat(the_input_array[i+1].value);
             console.log("num_two is : " + num_two);
-            do_math(num_one, num_two, operator);
-            console.log(do_math(num_one, num_two, operator));
+            the_answer = do_math(num_one, num_two, operator);
+            console.log("answer is = " + the_answer);
         }
     }
 }
+
 function display_screen(element){
     $('.screen_div').text(element);
 }
