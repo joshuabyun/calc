@@ -13,7 +13,7 @@ function event_handler() {
     $('.clear').click(function () {
         {
             if($(this).text() == "C"){
-                console.log("hello");
+                clear();
             }
             else if($(this).text() == "CE"){
                 console.log("bye");
@@ -22,6 +22,10 @@ function event_handler() {
     });
 }
 
+function clear(){
+    input_array = [];
+    console.log(input_array);
+}
 
 function num_data_obj (element){
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
@@ -48,12 +52,38 @@ function make_parameter(the_input_array){
             var operator = the_input_array[i].value;
             console.log("operator position in the array is : " + i);
             console.log("operator is : " + operator);
-            var num_one = the_input_array[i-1].value;
+            var num_one = parseFloat(the_input_array[i-1].value);
             console.log("num_one is : " + num_one);
-            var num_two = the_input_array[i+1].value;
+            var num_two = parseFloat(the_input_array[i+1].value);
             console.log("num_two is : " + num_two);
-            do_math(num_one, num_two, operator)
+            do_math(num_one, num_two, operator);
+            console.log(do_math(num_one, num_two, operator));
         }
+    }
+}
+function display_screen(element){
+    $('.screen_div').text(element);
+}
+
+function do_math(num1, num2, operator) {
+    var answer;
+    switch (operator){
+        case '+':
+            answer = num1 + num2;
+            return answer;
+            break;
+        case '-':
+            answer = num1 - num2;
+            return answer;
+            break;
+        case 'X':
+            answer = num1 * num2;
+            return answer;
+            break;
+        case '/':
+            answer = num1 / num2;
+            return answer;
+            break;
     }
 }
 
@@ -94,31 +124,7 @@ function make_parameter(the_input_array){
 
 
 
-function display_screen(element){
-    $('.screen_div').text(element);
-}
 
-function do_math(num1, num2, operator) {
-    var answer;
-    switch (operator){
-        case '+':
-            answer = num1 + num2;
-            return answer;
-            break;
-        case '-':
-            answer = num1 - num2;
-            return answer;
-            break;
-        case 'X':
-            answer = num1 * num2;
-            return answer;
-            break;
-        case '/':
-            answer = num1 / num2;
-            return answer;
-            break;
-    }
-}
 
 
 
