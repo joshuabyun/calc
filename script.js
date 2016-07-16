@@ -23,30 +23,10 @@ function event_handler() {
     });
 }
 
-function clear(){
-    input_array = [];
-    array_position = 0;
-    display_screen(" ");
-    console.log(input_array);
-}
-function clear_entry(){
-    input_array.splice(input_array.length-1);
-    if(input_array.length == 0){
-        clear();
-        return;
-    }
-    display_screen(input_array[input_array.length-1].value);
-    console.log(input_array);
-}
-
-function display_screen(element){
-    $('.screen_div').text(element);
-}
-
 function num_data_obj (element){ //making array of objects with type and value inside
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
-        console.log(input_array);
         input_array[array_position-1].value+=element.text();
+        console.log(input_array[array_position-1].value); // to log current input and where it is being saved
         display_screen(input_array[array_position-1].value);
     }
     else{
@@ -57,29 +37,22 @@ function num_data_obj (element){ //making array of objects with type and value i
             console.log("equal sign pressed");
             make_parameter(input_array);
             display_screen(the_answer);
+            var c = new Object();
+            c.value = the_answer;
+            c.type = 'num_key';
+            input_array = [];
+            input_array[0] = c;
+            array_position = 1;
             return;
         }
         display_screen(a.value);
         input_array[array_position] = a;
-        console.log(input_array);
+        console.log(input_array[array_position].value); // to log current input and where it is being saved
         array_position++;
     }
 }
 
-function make_parameter(the_input_array){
-    // for(var i = 0; i < the_input_array.length ; i++){
-    //     if(the_input_array[i].type == "special_char"){
-    //         operator = the_input_array[i].value;
-    //         console.log("operator position in the array is : " + i);
-    //         console.log("operator is : " + operator);
-    //         num_one = parseFloat(the_input_array[i-1].value);
-    //         console.log("num_one is : " + num_one);
-    //         num_two = parseFloat(the_input_array[i+1].value);
-    //         console.log("num_two is : " + num_two);
-    //         the_answer = do_math(num_one, num_two, operator);
-    //         console.log("answer is = " + the_answer);
-    //     }
-    // }
+function make_parameter(the_input_array){ //called whenever "=" is pressed
     var inner_answer;
     for(var i = 0; i < the_input_array.length; i++){
         if(the_input_array[i].value == "X" || the_input_array[i].value == "/"){
@@ -88,15 +61,19 @@ function make_parameter(the_input_array){
             b.value = inner_answer;
             b.type = "num_key";
             the_input_array.splice(i-1,3,b);
+            i = -1;
         }
     }
-    for(var i = 0; i < the_input_array.length; i++){
-        if(the_input_array[i].value == "+" || the_input_array[i].value == "-"){
-            inner_answer = do_math(parseFloat(the_input_array[i-1].value),parseFloat(the_input_array[i+1].value),the_input_array[i].value);
+    for(var j = 0; j < the_input_array.length; j++){
+        if(the_input_array[j].value == "+" || the_input_array[j].value == "-"){
+            inner_answer = do_math(parseFloat(the_input_array[j-1].value),parseFloat(the_input_array[j+1].value),the_input_array[j].value);
             var b = new Object();
             b.value = inner_answer;
             b.type = "num_key";
-            the_input_array.splice(i-1,3,b);
+            the_input_array.splice(j-1,3,b);
+            j = -1; //when there is a math computation, set j to -1 so that next loop at line 63 starts fresh
+            //if we set j instead of i, and delete line 60 and 70, we have to press "=" twice to run get the result of the function with 2 operations in same group ("+ , -" or "/ , *" )
+            //because the if statement below checks for the length of the "new computed array"
         }
     }
     if(the_input_array.length == 1 && the_input_array[0].type == "num_key"){
@@ -127,6 +104,25 @@ function do_math(num1, num2, operator) {
             return answer;
             break;
     }
+}
+
+function display_screen(element){
+    $('.screen_div').text(element);
+}
+function clear(){
+    input_array = [];
+    array_position = 0;
+    display_screen(" ");
+    console.log(input_array);
+}
+function clear_entry(){
+    input_array.splice(input_array.length-1);
+    if(input_array.length == 0){
+        clear();
+        return;
+    }
+    display_screen(input_array[input_array.length-1].value);
+    console.log(input_array);
 }
 
 // function make_paramater(the_input_array) { //the_input_array is ultimately referring to input_array,
