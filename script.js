@@ -5,6 +5,7 @@
 var input_array = [];
 var array_position = 0;
 var the_answer;
+
 $(document).ready(event_handler);
 
 function event_handler() {
@@ -25,6 +26,7 @@ function event_handler() {
 
 function num_data_obj (element){ //making array of objects with type and value inside
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
+        //if second decimal is pressed, return (if first and last index of '.' the object is not equal, return)
         input_array[array_position-1].value+=element.text();
         console.log(input_array[array_position-1].value); // to log current input and where it is being saved
         display_screen(input_array[array_position-1].value);
@@ -121,6 +123,7 @@ function clear_entry(){
         clear();
         return;
     }
+    array_position--;
     display_screen(input_array[input_array.length-1].value);
     console.log(input_array);
 }
