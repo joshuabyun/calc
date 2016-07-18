@@ -23,7 +23,6 @@ function event_handler() {
         }
     });
 }
-
 function num_data_obj (element){ //making array of objects with type and value inside
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
         //if second decimal is pressed, return (if first and last index of '.' the object is not equal, return)
@@ -60,13 +59,14 @@ function num_data_obj (element){ //making array of objects with type and value i
         input_array[array_position] = a;
         console.log("A new object has been created. New value is : " + input_array[array_position].value); // to log current input and where it is being saved
         array_position++;
-        //if the previous object type is special_char, replace previous obj to newly pressed button.
-        if(input_array[array_position].type == "special_char" && input_array[array_position-1].type == "special_char"){
+        if(input_array.length > 1 && input_array[array_position-2].type == "special_char" && input_array[array_position-1].type == "special_char"){ //to avoid consecutive operator input.
             //delete the previous operator object and decrement array_position by  1.
+            input_array.splice(array_position-2,1);
+            array_position--;
+            console.log("Multiple operation inputted. The operator first added has been removed");
         }
     }
 }
-
 function make_parameter(the_input_array){ //called whenever "=" is pressed
     var inner_answer;
     for(var i = 0; i < the_input_array.length; i++){
@@ -97,8 +97,6 @@ function make_parameter(the_input_array){ //called whenever "=" is pressed
     }
 }
 
-
-
 function do_math(num1, num2, operator) {
     var answer;
     switch (operator){
@@ -116,6 +114,9 @@ function do_math(num1, num2, operator) {
             break;
         case '/':
             answer = num1 / num2;
+            if(num2 == 0){
+                return "Error";
+            }
             return answer;
             break;
     }
