@@ -67,6 +67,8 @@ function num_data_obj (element){ //making array of objects with type and value i
         }
     }
 }
+
+// --------------------LFZ Start
 function make_parameter(the_input_array){ //called whenever "=" is pressed
     var inner_answer;
     for(var i = 0; i < the_input_array.length; i++){
@@ -96,6 +98,8 @@ function make_parameter(the_input_array){ //called whenever "=" is pressed
         console.log("the answer is : " + the_answer);
     }
 }
+
+//------------------------------LFZ Finish
 
 function do_math(num1, num2, operator) {
     var answer;
