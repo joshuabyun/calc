@@ -69,33 +69,31 @@ function num_data_obj (element){ //making array of objects with type and value i
 }
 
 // --------------------LFZ Start
-function make_parameter(the_input_array){ //called whenever "=" is pressed
-    var inner_answer;
-    for(var i = 0; i < the_input_array.length; i++){
-        if(the_input_array[i].value == "X" || the_input_array[i].value == "/"){
-            inner_answer = do_math(parseFloat(the_input_array[i-1].value),parseFloat(the_input_array[i+1].value),the_input_array[i].value);
-            var b = new Object();
-            b.value = inner_answer;
-            b.type = "num_key";
-            the_input_array.splice(i-1,3,b);
-            i = -1;
+function make_parameter(the_input_array){                                                //JB : create a function that takes one parameter which is an array of objects. This function will check whether the parameter has operators.This function gets called whenever equal sign "=" is pressed, finds operator and calls do_math function. This function also prioritizes multiplication and division before addition and subtraction to follow order of operations.
+    var inner_answer;                                                                     //JB : create a local variable. This variable will temporarily store the answer of a simple three input computation (number, number, operator).
+    for(var i = 0; i < the_input_array.length; i++){                                     //JB : create a for loop that check for each object's value in the parameter
+        if(the_input_array[i].value == "X" || the_input_array[i].value == "/"){           //JB : create an if statement. The if statement will check whether the object's value of the parameter is equal to "X" or "/"
+            inner_answer = do_math(parseFloat(the_input_array[i-1].value),parseFloat(the_input_array[i+1].value),the_input_array[i].value);     //JB : if the statement's condition is true, call do_math function with three parameters (one at the found position, one before its position, one after the position) and assign the result to the local variable that we created in line 73.
+            var b = new Object();                                                        //JB : create a new object and assign it to another new local variable
+            b.value = inner_answer;                                                       //JB : create a new property for the object we created in line 77, value, and assign the value of the variable from line 73
+            b.type = "num_key";                                                           //JB : create a new property for the object we created in line 77, type, and give it a string value "num_key"
+            the_input_array.splice(i-1,3,b);                                              //JB : using splice method, remove 3 objects that were used to call do_math function and replace it with the object variable from line 77
+            i = -1;                                                                       //JB : set the variable from line 74,the one that was used to increment for-loop, equal to -1 so that the loop can repeat from position 0 again.
         }
     }
-    for(var j = 0; j < the_input_array.length; j++){
+    for(var j = 0; j < the_input_array.length; j++){                                    //JB : create a new for loop, separate from above to evaluate if there is + or  - operator in the parameter. The loop will perform same activities as the one above except it will search for + and  - instead. (this loop is NOT nested to the loop above)
         if(the_input_array[j].value == "+" || the_input_array[j].value == "-"){
             inner_answer = do_math(parseFloat(the_input_array[j-1].value),parseFloat(the_input_array[j+1].value),the_input_array[j].value);
             var b = new Object();
             b.value = inner_answer;
             b.type = "num_key";
             the_input_array.splice(j-1,3,b);
-            j = -1; //when there is a math computation, set j to -1 so that next loop at line 63 starts fresh
-            //if we set j instead of i, and delete line 60 and 70, we have to press "=" twice to run get the result of the function with 2 operations in same group ("+ , -" or "/ , *" )
-            //because the if statement below checks for the length of the "new computed array"
+            j = -1;
         }
     }
-    if(the_input_array.length == 1 && the_input_array[0].type == "num_key"){
-        the_answer = the_input_array[0].value;
-        console.log("the answer is : " + the_answer);
+    if(the_input_array.length == 1 && the_input_array[0].type == "num_key"){            //JB : After the second for-loop, create an if statement.The statement will check if the parameter's array length is equal to 1 and the object's type inside the array is equal to "num_key".
+        the_answer = the_input_array[0].value;                                          //JB  : If true, get the value of the object and assign it to the global variable the_answer.
+        console.log("the answer is : " + the_answer);                                   //console.log the "the_answer"
     }
 }
 
