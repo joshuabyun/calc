@@ -28,7 +28,16 @@ function num_data_obj (element){ //making array of objects with type and value i
     if(array_position>0 && element.attr('class')=='num_key' && input_array[array_position-1].type=='num_key'){
         //if second decimal is pressed, return (if first and last index of '.' the object is not equal, return)
         input_array[array_position-1].value+=element.text();
-        console.log(input_array[array_position-1].value); // to log current input and where it is being saved
+        if(input_array[array_position-1].value.indexOf('.') != input_array[array_position-1].value.lastIndexOf(".")){ //to prevent multiple decimal points input in one obj.
+            var pos1 = input_array[array_position-1].value.indexOf('.');
+            var substring = input_array[array_position-1].value.substring(0,pos1+1);
+            var string = input_array[array_position-1].value;
+            var new_string_val = input_array[array_position-1].value.replace(string , substring);
+            input_array[array_position-1].value = new_string_val; //phpstorms calls the var new_string_val is redundant. Any other way to do this?
+            console.log("multiple decimals inputted");
+            return;
+        }
+        console.log("A new number has been added to the current object. New value is :" + input_array[array_position-1].value); // to log current input and where it is being saved
         display_screen(input_array[array_position-1].value);
     }
     else{
@@ -49,8 +58,12 @@ function num_data_obj (element){ //making array of objects with type and value i
         }
         display_screen(a.value);
         input_array[array_position] = a;
-        console.log(input_array[array_position].value); // to log current input and where it is being saved
+        console.log("A new object has been created. New value is : " + input_array[array_position].value); // to log current input and where it is being saved
         array_position++;
+        //if the previous object type is special_char, replace previous obj to newly pressed button.
+        if(input_array[array_position].type == "special_char" && input_array[array_position-1].type == "special_char"){
+            //delete the previous operator object and decrement array_position by  1.
+        }
     }
 }
 
@@ -125,78 +138,6 @@ function clear_entry(){
     }
     array_position--;
     display_screen(input_array[input_array.length-1].value);
-    console.log(input_array);
+    console.log("An object has been cleared. Remaining objects are : " + input_array);
 }
 
-// function make_paramater(the_input_array) { //the_input_array is ultimately referring to input_array,
-//     var formula_array = [""];
-//     var formula_array_position = 0;
-//     //get the value of each object and put it into an array.
-//
-//     for(var i =0; i<the_input_array.length;i++){ //pulling values from objects and inserting into an array based on the operator
-//         if(the_input_array[i].type == "num_key"){
-//             formula_array[formula_array_position] = input_array[i].value;
-//         }
-//         else if(input_array[i].type == "special_char"){
-//             formula_array_position++;
-//             formula_array[formula_array_position] = input_array[i].value;
-//             formula_array_position++;
-//             formula_array[formula_array_position] = '';
-//         }
-//     }
-//     console.log(formula_array);
-//     // //formula_array is an array of strings consist of numbers and operator which are the values of objects inside of the_input_array
-//
-//     //need to evaluate order of operation and put it in to an array
-//     for(var j = 0; j<formula_array.length;j++){
-//         if(the_input_array[j].type == "special_char"){
-//             var num1 = parseFloat(formula_array[j-1]); //to change value into decimal
-//             var num2 = parseFloat(formula_array[j+1]);
-//             var operator = formula_array[j];
-//             console.log("num1 : "+ num1);
-//             console.log("num2 : " +num2);
-//             console.log("operator : "+operator);
-//             console.log(do_math(num1,num2,operator));
-//             result = do_math(num1,num2,operator)
-//             display_screen(result);
-//         }
-//     }
-// }
-
-
-
-
-
-
-
-/*--------------------------using just array ---------------------------*/
-// function event_handler(){
-//     $('.font_size').on('click','.num_key',function(){
-//         insert_number($(this).text());
-//     });
-//     $('.font_size').on('click','.special_char',function(){
-//         insert_special_char($(this).text());
-//     });
-//     $('.font_size').on('click','.equal_sign',function(){
-//         equal_submit();
-//     });
-// }
-// function insert_number(input){
-//      input_array[array_position]+=input;
-//     //display input_array[array_position]
-// }
-// function insert_special_char(input){
-//     array_position++;
-//     input_array[array_position]=input;
-//     array_position++;
-//     input_array[array_position]="";
-//     //display input_array[array_position]
-// }
-// function equal_submit(){
-//     do_math(input_array);
-//     //display the answer
-// }
-//
-// function do_math(data){
-//
-// }
