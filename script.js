@@ -71,6 +71,17 @@ function num_data_obj (element){ //making array of objects with type and value i
 // --------------------LFZ Start
 function make_parameter(the_input_array){ //called whenever "=" is pressed
     var inner_answer;
+    // for(var i = 0; i < the_input_array; i++){
+    //     if(the_input_array[i].value == "X" || the_input_array[i].value == "/"){
+    //                 inner_answer = do_math(parseFloat(the_input_array[i-1].value),parseFloat(the_input_array[i+1].value),the_input_array[i].value);
+    //                 var b = new Object();
+    //                 b.value = inner_answer;
+    //                 b.type = "num_key";
+    //                 the_input_array.splice(i-1,3,b);
+    //                 i = -1;
+    //             }
+    // }
+    //
     for(var i = 0; i < the_input_array.length; i++){
         if(the_input_array[i].value == "X" || the_input_array[i].value == "/"){
             inner_answer = do_math(parseFloat(the_input_array[i-1].value),parseFloat(the_input_array[i+1].value),the_input_array[i].value);
