@@ -1,47 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="calcApp">
 <head>
     <meta charset="UTF-8">
     <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <!--<script src="script.js"></script>     for javascript      -->
     <title>Calculator</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta name="Author" content="Joshua Byun">
     <meta name="Keyword" content="calculator basic function">
 </head>
-<body>
+<body ng-controller = "calcController as cc">
 <div class="container_div">
     <div class="output_div">
-        <div class="screen_div"></div>
+        <div class="screen_div">{{cc.theAnswer}}{{cc.currentKey}}</div>
     </div>
     <div class="input_div">
         <div class="key_div">
             <div class="reset_div font_size">
-                <button class="clear">C</button>
-                <button class="clear">CE</button>
+                <button class="clear" ng-click="cc.event_handler(cc.clear.clearAll)">C</button>
+                <button class="clear" ng-click="cc.event_handler(cc.clear.clearEnt)">CE</button>
             </div>
             <div class="num_div font_size">
-                <button class="num_key">7</button>
-                <button class="num_key">8</button>
-                <button class="num_key">9</button>
-                <button class="num_key">4</button>
-                <button class="num_key">5</button>
-                <button class="num_key">6</button>
-                <button class="num_key">1</button>
-                <button class="num_key">2</button>
-                <button class="num_key">3</button>
-                <button class="num_key">0</button>
-                <button class="num_key">.</button>
-                <button class="equal_sign">=</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.seven)">7</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.eight)">8</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.nine)">9</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.four)">4</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.five)">5</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.six)">6</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.one)">1</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.two)">2</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.three)">3</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.zero)">0</button>
+                <button class="num_key" ng-click="cc.event_handler(cc.numKey.dot)">.</button>
+                <button class="equal_sign" ng-click="cc.event_handler(cc.equalSign.equal)">=</button>
             </div>
         </div>
         <div class="operator_div font_size">
-            <button class="special_char">/</button>
-            <button class="special_char">X</button>
-            <button class="special_char">-</button>
-            <button class="special_char">+</button>
+            <button class="special_char" ng-click="cc.event_handler(cc.specialChar.divide)">/</button>
+            <button class="special_char" ng-click="cc.event_handler(cc.specialChar.multi)">X</button>
+            <button class="special_char" ng-click="cc.event_handler(cc.specialChar.sub)">-</button>
+            <button class="special_char" ng-click="cc.event_handler(cc.specialChar.add)">+</button>
         </div>
     </div>
 </div>
 </body>
+<script>
+    var app = angular.module('calcApp', []);
+    app.factory("calcFactory", function(){
+        var service = {};
+        service.intakeNum = function(input){
+
+
+        }
+        return service;
+    });
+    app.controller('calcController',function(calcFactory){
+        this.inputArray = [];   //where we keep track and input our pressed values.
+        this.theAnswer;         //the final answer that will be displayed in the screen
+        this.currentKey;        //the last key pressed and inserted into the inputArray. also shows up on the screen
+        this.arrayPosition = 0;
+
+        this.numKey = {
+            zero : 0,
+            one : 1,
+            two : 2,
+            three : 3,
+            four : 4,
+            five : 5,
+            six : 6,
+            seven : 7,
+            eight : 8,
+            nine : 9,
+            dot : "."
+        };
+        this.clear = {
+            clearAll : "C",
+            clearEnt : "CE"
+        };
+        this.equalSign = {
+            equal : "="
+        };
+        this.specialChar = {
+            add : "+",
+            sub : "-",
+            multi : "X",
+            divide : "/"
+        };
+
+        this.event_handler = function(param){
+            //check for the type of the key pressed, and call the corresponding state engine
+            if(angular.isNumber(param) || param == this.numKey.dot){
+                console.log(param);
+                //this is when the pressed key is a number.
+                //need to call the number state engine.
+
+
+
+            }
+            else if(param == this.specialChar.add || param == this.specialChar.sub || param == this.specialChar.multi || param == this.specialChar.divide ){
+                console.log(param);
+                //this is when an operater is pressed
+                //call for an operator state engine
+            }
+            else if(param == this.clear.clearAll || param == this.clear.clearEnt){
+                console.log("clear entered");
+                //this is when the C or CE button has been pressed
+                //call the state engine for clear
+            }
+            else{
+                console.log(param);
+                //this is when the equal sign is pressed.
+                //call the state engine for equal sign
+            }
+        };
+
+        this.number = {
+
+        }
+
+    })
+</script>
 </html>

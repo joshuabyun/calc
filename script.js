@@ -2,11 +2,11 @@
  * Created by Gina on 7/12/2016.
  */
 
-var input_array = [];
-var array_position = 0;
-var the_answer;
+var input_array = [];//
+var array_position = 0;//
+var the_answer;//
 
-$(document).ready(event_handler);
+$(document).ready(event_handler);//
 
 function event_handler() {
     $('.num_div button, .operator_div button').click(function () {
@@ -55,6 +55,7 @@ function num_data_obj (element){ //making array of objects with type and value i
             array_position = 1;
             return;
         }
+        
         display_screen(a.value);
         input_array[array_position] = a;
         console.log("A new object has been created. New value is : " + input_array[array_position].value); // to log current input and where it is being saved
