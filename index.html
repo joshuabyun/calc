@@ -4,42 +4,43 @@
     <meta charset="UTF-8">
     <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
     <script src="script.js"></script>
-    <title>Calculator</title>
     <link rel="stylesheet" type="text/css" href="style.css">
+    <title>Calculator</title>
     <meta name="Author" content="Joshua Byun">
     <meta name="Keyword" content="calculator basic function">
 </head>
 <body>
-<div class="container_div">
-    <div class="output_div">
-        <div class="screen_div"></div>
+<div id="calcContainerDiv">
+    <div id="outputDiv">
+        <div class="screenDiv" id="calculationScreen"></div>
+        <div class="screenDiv" id="answerScreen"></div>
     </div>
-    <div class="input_div">
-        <div class="key_div">
-            <div class="reset_div font_size">
+    <div id="inputDiv">
+        <div id="keyDiv">
+            <div id="resetDiv" class="font_size">
                 <button class="clear">C</button>
                 <button class="clear">CE</button>
             </div>
-            <div class="num_div font_size">
-                <button class="num_key">7</button>
-                <button class="num_key">8</button>
-                <button class="num_key">9</button>
-                <button class="num_key">4</button>
-                <button class="num_key">5</button>
-                <button class="num_key">6</button>
-                <button class="num_key">1</button>
-                <button class="num_key">2</button>
-                <button class="num_key">3</button>
-                <button class="num_key">0</button>
-                <button class="num_key">.</button>
-                <button class="equal_sign">=</button>
+            <div id="numDiv" class="font_size">
+                <button class="numKey">7</button>
+                <button class="numKey">8</button>
+                <button class="numKey">9</button>
+                <button class="numKey">4</button>
+                <button class="numKey">5</button>
+                <button class="numKey">6</button>
+                <button class="numKey">1</button>
+                <button class="numKey">2</button>
+                <button class="numKey">3</button>
+                <button class="numKey">0</button>
+                <button class="numKey">.</button>
+                <button id="equalSign">=</button>
             </div>
         </div>
-        <div class="operator_div font_size">
-            <button class="special_char">/</button>
-            <button class="special_char">X</button>
-            <button class="special_char">-</button>
-            <button class="special_char">+</button>
+        <div id="operatorDiv" class="font_size">
+            <button class="specialChar">/</button>
+            <button class="specialChar">X</button>
+            <button class="specialChar">-</button>
+            <button class="specialChar">+</button>
         </div>
     </div>
 </div>

@@ -1,106 +1,114 @@
-
+*{
+    font-size: 0;
+}
 body{
-    margin:0;
     height:100vh;
-    font-size:0;
-    width:100%;
+    width:100vw;
+    background-color:black;
+    margin:0;
 }
-.font_size > button{
-    font-size: 10vh;
-    text-align: center;
-    border-radius: 1vh;
-}
-/*----------------------*/
-.container_div{
-    background-color: #46C900;
-    display: inline-block;
-    position: relative;
-    height: 100vh;
-    width:50%;
+#calcContainerDiv{
+    height:70%;
+    width:40%;
+    background-color: white;
+    position: absolute;
+    border:1px solid white;
+    border-radius: 10%;
     left:50%;
+    top:10%;
     transform: translate(-50%);
-    border-radius:2vh;
 }
-.output_div{
-    display: inline-block;
-    position: relative;
-    width:100%;
+/*--------------------------Display---------------*/
+#outputDiv{
+    background-color: yellow;
+    position: absolute;
     height:20%;
-}
-.input_div{
-    display: inline-block;
-    position: relative;
-    width:100%;
-    height:80%;
-}
-.screen_div{
-    display: inline-block;
-    position: relative;
-    background-color: #758AA8;
-    width:90%;
-    height:90%;
     top:5%;
+    width:90%;
     left:5%;
-    font-size:5vh;
-    border-radius: 1vh;
-    word-wrap:break-word;
-    /*overflow: scroll;*/
+    border-radius: 10%;
+    box-sizing: border-box;
 }
-.key_div{
-    display: inline-block;
+.screenDiv{
+    left:5%;
+    width:90%;
+    top:10%;
     position: relative;
-    width:75%;
-    height:100%;
 }
-.operator_div{
-    vertical-align: top;
-    display: inline-block;
+#calculationScreen{
+    height:30%;
+    background-color: lavender;
+}
+#answerScreen{
+    height:50%;
+    background-color: #5bc0de;
+}
+/*--------------------------Key Input---------------*/
+#inputDiv *{
+    font-size: initial;
+}
+#inputDiv{
+    background-color: lightgreen;
+    position: absolute;
+    height: 70%;
+    width: 90%;
+    margin-top:3%;
+    top:25%;
+    left:5%;
+    border-radius: 10%;
+    box-sizing: border-box;
+}
+#keyDiv{
+    position: absolute;
+    left: 5%;
+    top:5%;
+    height:90%;
+    width:65%;
+    background-color: mistyrose;
+}
+#resetDiv{
     position: relative;
-    width:25%;
-    height:100%;
-}
-.reset_div{
-    display: inline-block;
-    position:relative;
     width:100%;
-    height:20%;
-}
-.num_div{
-    display: inline-block;
-    position:relative;
-    width:100%;
-    height:80%;
+    height: 15%;
+    top:2%;
+    text-align: center;
+    box-sizing: border-box;
+    padding:2%;
 }
 .clear{
-    background-color: #E5FB1A;
-    display: inline-block;
     position: relative;
+    display: inline-block;
     width:45%;
-    height:100%;
-    margin: 0 2%;
-    left:1%;
-    color:white;
+    height: 100%;
 }
-.num_key, .equal_sign{
-    display: inline-block;
+#numDiv{
     position: relative;
-    background-color: aliceblue;
-    width:30%;
-    height:22%;
-    margin: 1% 1%;
-    left: 2%;
-    top:3.5%;
+    width:100%;
+    height: 80%;
+    top:2%;
+    text-align: center;
+    box-sizing: border-box;
+    padding:3%;
 }
-.special_char{
-    background-color: #51BC9C;
+.numKey, #equalSign{
+    position: relative;
     display: inline-block;
+    width:30%;
+    height: 25%;
+}
+#operatorDiv{
+    position: absolute;
+    right:5%;
+    top:5%;
+    height:90%;
+    width:25%;
+    background-color: #bbbbbb;
+    text-align: center;
+}
+.specialChar{
     position: relative;
     width:90%;
-    height:20%;
-    left:5%;
-    top:3%;
-    margin: 3% 0;
-}
-.operator_div :last-child{
-    height:30%;
+    height:22%;
+    margin-top: 5%;
+    top:2.5%;
 }
