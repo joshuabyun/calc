@@ -1,15 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="calcApp">
 <head>
     <meta charset="UTF-8">
-    <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
-    <script src="script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="style.css">
+    <script   src="https://code.jquery.com/jquery-2.2.4.js"   integrity="sha256-iT6Q9iMJYuQiMWNd9lDyBUStIq/8PuOW33aOqmvFpqI="   crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+    <script src="script.js"></script>
     <title>Calculator</title>
     <meta name="Author" content="Joshua Byun">
-    <meta name="Keyword" content="calculator basic function">
+    <meta name="Keyword" content="calculator">
 </head>
-<body>
+<body ng-controller = "calcController as cc">
 <div id="calcContainerDiv">
     <div id="outputDiv">
         <div class="screenDiv" id="calculationScreen"></div>
