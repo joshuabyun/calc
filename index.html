@@ -11,16 +11,16 @@
     <meta name="Author" content="Joshua Byun">
     <meta name="Keyword" content="calculator">
 </head>
-<body ng-controller = "calcController as cc">
+<body ng-controller = "calcController as cc" ng-keyup="cc.console($event.key)">
 <div id="calcContainerDiv">
     <div id="outputDiv">
-        <div class="screenDiv" id="calculationScreen"></div>
-        <div class="screenDiv" id="answerScreen"></div>
+        <div class="screenDiv" id="calculationScreen" ng-bind="cc.upperDisplay"></div>
+        <div class="screenDiv" id="answerScreen" ng-bind="cc.lowerDisplay"></div>
     </div>
     <div id="inputDiv">
         <div id="keyDiv">
             <div id="resetDiv" class="font_size">
-                <button class="clear" ng-click="cc.acceptClickedKey('C','clear')">C</button>
+                <button class="clear" ng-click="cc.acceptClickedKey('C','clear')" ng-keyup>C</button>
                 <button class="clear" ng-click="cc.acceptClickedKey('CE','clear')">CE</button>
             </div>
             <div id="numDiv" class="font_size">
