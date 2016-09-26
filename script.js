@@ -13,10 +13,9 @@ app.controller('calcController',function($log){
         var lastNumPos = this.inputArray.length-1;
         this.lowerDisplay = this.inputArray[lastNumPos].value;
     };
-    this.updateUpperDisplay = function(){
-      for(var obj in this.inputArray){
-          this.upperDisplay += this.inputArray[obj].value;
-      }
+    this.updateUpperDisplay = function(currentOperator){
+      var lastInputArrayPos = this.inputArray.length-1;
+      this.upperDisplay += this.inputArray[lastInputArrayPos].value + currentOperator;
     };
     this.clearUpperDisplay = function(){
       this.upperDisplay = "";
@@ -24,10 +23,12 @@ app.controller('calcController',function($log){
     //checks for the input type, calls approperiate functions according to the input
     this.acceptClickedKey = function(clickedInput,inputType){
         var self = this;
-        this.validateInput(clickedInput,inputType); //validates input - returns False on multiple decimals in one number, consecutive operators, operator as a first input
+        if(!this.validateInput(clickedInput,inputType)){
+            return
+        } //validates input - returns False on multiple decimals in one number, consecutive operators, operator as a first input
         switch(inputType){
             case 'numKey' :
-                if(this.inputArray.length == 0){
+                if(this.inputArray.length == 0){                             //first number input condition
                     createObj(clickedInput,inputType,self);
                 }else{
                     var arrayLastPosition = this.inputArray.length -1;
@@ -39,11 +40,9 @@ app.controller('calcController',function($log){
                         }else{
                             this.inputArray[arrayLastPosition].value += clickedInput;
                         }
-                        //call update display -for lower display only
                     }
                     else{
-                        createObj(clickedInput,inputType,self); //alternate input condition
-                        //call update display -for upper and lower display
+                        createObj(clickedInput,inputType,self);                //alternate input condition
                     }
                 }
                 this.updateLowerDisplay();
@@ -51,14 +50,18 @@ app.controller('calcController',function($log){
             case 'specialChar' :
                 this.equalSignClicked = false;
                 if(this.checkCalcEligible()){
+                    $log.log("special char, ready to calculate",this.inputArray);
+                    this.updateUpperDisplay(clickedInput);
                     var calculatedNum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); //would like to use a ref value instead of a hard number
                     this.inputArray = [];
                     createObj(calculatedNum,"numKey",self);
+                    this.updateLowerDisplay();
                     createObj(clickedInput,inputType,self);
                 }else{
+                    $log.log("special char, not ready to calculate",this.inputArray);
+                    this.updateUpperDisplay(clickedInput);
                     createObj(clickedInput,inputType,self);
                 }
-                this.updateUpperDisplay();
                 break;
             case 'equalSign' :
                 if(this.checkCalcEligible()){
