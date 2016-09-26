@@ -8,8 +8,8 @@ body{
     margin:0;
 }
 #calcContainerDiv{
-    height:70%;
-    width:40%;
+    height:80%;
+    width:30%;
     background-color: lavender;
     position: absolute;
     border-radius: 10%;
@@ -17,6 +17,37 @@ body{
     top:10%;
     transform: translate(-50%);
 }
+
+@media (max-width: 450px) and (orientation: portrait) {
+    #calcContainerDiv{
+        height:90%;
+        width:90%;
+        top:5%;
+    }
+}
+@media (max-width: 750px) and (orientation: landscape) {
+    #calcContainerDiv{
+        height:96%;
+        width:45%;
+        top:2%;
+    }
+}
+@media (max-width: 768px) and (orientation: portrait) {
+    #calcContainerDiv{
+        height:75%;
+        width:50%;
+        top:10%;
+    }
+}
+@media (max-width: 1024px) and (orientation: landscape) {
+    #calcContainerDiv{
+        height:75%;
+        width:40%;
+        top:10%;
+    }
+}
+
+
 /*--------------------------Display---------------*/
 #outputDiv{
     background-color: yellow;
