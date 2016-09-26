@@ -52,6 +52,9 @@ app.controller('calcController',function($log){
                         }
                     }
                     else{
+                        if(this.ceClicked){
+                            this.ceClicked = false;
+                        }
                         createObj(clickedInput,inputType,self);                //alternate input condition
                     }
                 }
@@ -60,25 +63,31 @@ app.controller('calcController',function($log){
             case 'specialChar' :
                 this.equalSignClicked = false;
                 if(this.checkCalcEligible()){
-                    $log.log("special char, ready to calculate",this.inputArray);
                     if(this.ceClicked){
                         createObj(0,"numKey",self);
                         this.ceClicked = false;
                     }
                     this.updateUpperDisplay(clickedInput);
-                    var calculatedNum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); //would like to use a ref value instead of a hard number
+                    var calculatedNum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); 
                     this.inputArray = [];
                     createObj(calculatedNum,"numKey",self);
                     this.updateLowerDisplay();
                     createObj(clickedInput,inputType,self);
                 }else{
-                    $log.log("special char, not ready to calculate",this.inputArray);
                     if(this.ceClicked){
                         createObj(0,"numKey",self);
+                        this.updateUpperDisplay(clickedInput);
+                        var sum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); 
+                        this.inputArray = [];
+                        createObj(sum,"numKey",self);
                         this.ceClicked = false;
+                        this.updateLowerDisplay();
+                        createObj(clickedInput,inputType,self);
+                    }else{
+                        this.updateUpperDisplay(clickedInput);
+                        this.updateLowerDisplay();
+                        createObj(clickedInput,inputType,self);
                     }
-                    this.updateUpperDisplay(clickedInput);
-                    createObj(clickedInput,inputType,self);
                 }
                 break;
             case 'equalSign' :
@@ -128,12 +137,15 @@ app.controller('calcController',function($log){
             }
         }
         else{
+            if(this.ceClicked && inputType == "specialChar"){   //exception for consecutive operators : CE clicked
+                return true
+            }
             var arrayLastPosition = this.inputArray.length -1;
-            if(inputType == "specialChar" && inputType == this.inputArray[arrayLastPosition].type){
+            if(inputType == "specialChar" && inputType == this.inputArray[arrayLastPosition].type){ //error handler : consecutive operators
                 $log.error('cannot accept consecutive operators');
                 return false;
             }else{
-                if(clickedInput =="." && this.inputArray[arrayLastPosition].value.indexOf(".") != -1){
+                if(clickedInput =="." && this.inputArray[arrayLastPosition].value.indexOf(".") != -1){ //error handler : multiple decimals in a number
                     $log.error('cannot use multiple decimals in a number');
                     return false;
                 }else{
