@@ -67,10 +67,6 @@ app.controller('calcController',function($log){
             case 'specialChar' :
                 this.equalSignClicked = false;
                 if(this.checkCalcEligible()){                                           //ready to calculate : (num operator num)
-                    if(this.ceClicked){
-                        createObj(0,"numKey",self);
-                        this.ceClicked = false;
-                    }
                     this.updateUpperDisplay(clickedInput);
                     var calculatedNum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); 
                     this.inputArray = [];
