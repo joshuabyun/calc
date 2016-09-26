@@ -6,43 +6,47 @@ app.controller('calcController',function($log){
     this.equalSignClicked = false;
     this.ceClicked = false;
 
-    // this.console = function(input){
-    //   console.log(input);  
-    // };
-    this.updateLowerDisplay = function(){
-      var lastNumPos = this.inputArray.length-1;
-      this.lowerDisplay = this.inputArray[lastNumPos].value;
+    this.acceptKeyPressed = function(pressedKey){
+        var acceptableKey =
+            {
+                '0' : {input : '0', inputType : "numKey"},
+                '1' : {input : '1', inputType : "numKey"},
+                '2' : {input : '2', inputType : "numKey"},
+                '3' : {input : '3', inputType : "numKey"},
+                '4' : {input : '4', inputType : "numKey"},
+                '5' : {input : '5', inputType : "numKey"},
+                '6' : {input : '6', inputType : "numKey"},
+                '7' : {input : '7', inputType : "numKey"},
+                '8' : {input : '8', inputType : "numKey"},
+                '9' : {input : '9', inputType : "numKey"},
+                '.' : {input : '.', inputType : "numKey"},
+                'Enter' : {input : '=', inputType : "equalSign"},
+                '/' : {input : '/', inputType : "specialChar"},
+                '*' : {input : 'X', inputType : "specialChar"},
+                '-' : {input : '-', inputType : "specialChar"},
+                '+' : {input : '+', inputType : "specialChar"}
+            };
+        for(var input in acceptableKey){
+            if(pressedKey == input){
+                this.acceptClickedBtn(acceptableKey[input].input,acceptableKey[input].inputType);
+            }
+        }
     };
-    this.updateUpperDisplay = function(currentOperator){
-      var lastInputArrayPos = this.inputArray.length-1;
-      this.upperDisplay += this.inputArray[lastInputArrayPos].value + currentOperator;
-    };
-    this.clearUpperDisplay = function(){
-      this.upperDisplay = "";
-    };
-    this.clearLowerDisplay = function(){
-      this.lowerDisplay = "";
-    };
-    this.clearEntry = function(){
-      var lastNumPos = this.inputArray.length-1;
-      this.inputArray.splice(lastNumPos,1);
-    };
-    this.changeLowerDisplayToZero = function(){
-      this.lowerDisplay = 0;
-    };
+
     //checks for the input type, calls approperiate functions according to the input
-    this.acceptClickedKey = function(clickedInput,inputType){
+    this.acceptClickedBtn = function(clickedInput,inputType){
         var self = this;
         if(!this.validateInput(clickedInput,inputType)){
             return
-        } //validates input - returns False on multiple decimals in one number, consecutive operators, operator as a first input
+        }
+        //validates input - returns False on multiple decimals in one number, consecutive operators, operator as a first input
         switch(inputType){
             case 'numKey' :
-                if(this.inputArray.length == 0){                             //first number input condition
+                if(this.inputArray.length == 0){                                        //first number input condition
                     createObj(clickedInput,inputType,self);
                 }else{
                     var arrayLastPosition = this.inputArray.length -1;
-                    if(this.inputArray[arrayLastPosition].type == "numKey"){ //consecutive number input condition
+                    if(this.inputArray[arrayLastPosition].type == "numKey"){            //consecutive number input condition
                         if(this.equalSignClicked){
                             this.inputArray = [];
                             createObj(clickedInput,inputType,self);
@@ -55,14 +59,14 @@ app.controller('calcController',function($log){
                         if(this.ceClicked){
                             this.ceClicked = false;
                         }
-                        createObj(clickedInput,inputType,self);                //alternate input condition
+                        createObj(clickedInput,inputType,self);                          //alternate input condition
                     }
                 }
                 this.updateLowerDisplay();
                 break;
             case 'specialChar' :
                 this.equalSignClicked = false;
-                if(this.checkCalcEligible()){
+                if(this.checkCalcEligible()){                                           //ready to calculate : (num operator num)
                     if(this.ceClicked){
                         createObj(0,"numKey",self);
                         this.ceClicked = false;
@@ -73,7 +77,7 @@ app.controller('calcController',function($log){
                     createObj(calculatedNum,"numKey",self);
                     this.updateLowerDisplay();
                     createObj(clickedInput,inputType,self);
-                }else{
+                }else{                                                                  //not yet ready to calculate
                     if(this.ceClicked){
                         createObj(0,"numKey",self);
                         this.updateUpperDisplay(clickedInput);
@@ -92,7 +96,7 @@ app.controller('calcController',function($log){
                 break;
             case 'equalSign' :
                 if(this.checkCalcEligible()){
-                    var output = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); //would like to use a ref value instead of a hard number
+                    var output = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value);
                     createObj(output,"numKey",self);
                     this.inputArray.splice(0,this.inputArray.length-1);
                     this.equalSignClicked = true;
@@ -102,29 +106,46 @@ app.controller('calcController',function($log){
                 }
                 break;
             case 'clear' :
-                if(clickedInput == "C"){            //clear all condition
+                if(clickedInput == "C"){                                                    //clear all condition
                     this.inputArray = [];
                     this.clearUpperDisplay();
                     this.clearLowerDisplay();
-                }else{                              //clear entry condition
+                }else{                                                                      //clear entry condition
                     var lastInputArrPos = this.inputArray.length -1;
-                    if(this.inputArray[lastInputArrPos].type == "numKey"){       //CE clicked on a number
+                    if(this.inputArray[lastInputArrPos].type == "numKey"){                              //CE clicked on a number
                         this.clearEntry();
                         this.changeLowerDisplayToZero();
                         this.ceClicked = true;
-                        //if an operator is clicked, set the number before the operator as 0. if a number is clicked proceed as usual
-                    }else{                                                  //CE clicked on an operator
+                    }else{                                                                              //CE clicked on an operator
                         this.changeLowerDisplayToZero();
                         this.ceClicked = true;
-                        //if an operator is clicked, set the number before the operator as 0. if a number is clicked proceed as usual
                     }
                 }
                 break;
         }
         $log.log(this.inputArray);
     };
-
-
+    this.updateLowerDisplay = function(){
+        var lastNumPos = this.inputArray.length-1;
+        this.lowerDisplay = this.inputArray[lastNumPos].value;
+    };
+    this.updateUpperDisplay = function(currentOperator){
+        var lastInputArrayPos = this.inputArray.length-1;
+        this.upperDisplay += this.inputArray[lastInputArrayPos].value + currentOperator;
+    };
+    this.clearUpperDisplay = function(){
+        this.upperDisplay = "";
+    };
+    this.clearLowerDisplay = function(){
+        this.lowerDisplay = "";
+    };
+    this.clearEntry = function(){
+        var lastNumPos = this.inputArray.length-1;
+        this.inputArray.splice(lastNumPos,1);
+    };
+    this.changeLowerDisplayToZero = function(){
+        this.lowerDisplay = 0;
+    };
     //checks for consecutive operators and multiple decimal points in an input : returns boolean
     this.validateInput = function(clickedInput,inputType){
         //first input condition - only looks for the number
@@ -137,15 +158,15 @@ app.controller('calcController',function($log){
             }
         }
         else{
-            if(this.ceClicked && inputType == "specialChar"){   //exception for consecutive operators : CE clicked
+            if(this.ceClicked && inputType == "specialChar"){                                               //exception for consecutive operators : CE clicked
                 return true
             }
             var arrayLastPosition = this.inputArray.length -1;
-            if(inputType == "specialChar" && inputType == this.inputArray[arrayLastPosition].type){ //error handler : consecutive operators
+            if(inputType == "specialChar" && inputType == this.inputArray[arrayLastPosition].type){         //error handler : consecutive operators
                 $log.error('cannot accept consecutive operators');
                 return false;
             }else{
-                if(clickedInput =="." && this.inputArray[arrayLastPosition].value.indexOf(".") != -1){ //error handler : multiple decimals in a number
+                if(clickedInput =="." && this.inputArray[arrayLastPosition].value.indexOf(".") != -1){      //error handler : multiple decimals in a number
                     $log.error('cannot use multiple decimals in a number');
                     return false;
                 }else{
