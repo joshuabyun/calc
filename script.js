@@ -84,7 +84,6 @@ app.factory('calculate',function($log){
                         createObj(clickedInput,inputType,self);                                     //alternate input condition
                     }
                 }
-                //this.updateLowerDisplay();
                 return calculatorFunc.inputArray;
                 break;
             case 'specialChar' :
@@ -100,7 +99,6 @@ app.factory('calculate',function($log){
                     createObj(calculatedNum,"numKey",self);
                     //this.updateLowerDisplay();
                     createObj(clickedInput,inputType,self);
-                    return calculatorFunc.inputArray;
                 }else{                                                                              //not yet ready to calculate
                     if(calculatorFunc.ceClicked){
                         createObj(0,"numKey",self);
@@ -116,8 +114,8 @@ app.factory('calculate',function($log){
                         //this.updateLowerDisplay();
                         createObj(clickedInput,inputType,self);
                     }
-                    return calculatorFunc.inputArray;
                 }
+                return calculatorFunc.inputArray;
                 break;
             case 'equalSign' :
                 if(checkCalcEligible()){
@@ -126,24 +124,18 @@ app.factory('calculate',function($log){
                     calculatorFunc.inputArray.splice(0,calculatorFunc.inputArray.length-1);
                     calculatorFunc.equalSignClicked = true;
                     $log.info("final value : ", output);
-                    //this.clearUpperDisplay();
-                    //this.updateLowerDisplay();
                     return calculatorFunc.inputArray;
                 }
                 break;
             case 'clear' :
                 if(clickedInput == "C"){                                                    //clear all condition
                     calculatorFunc.inputArray = [];
-                    //this.clearUpperDisplay();
-                    //this.clearLowerDisplay();
                 }else{                                                                      //clear entry condition
-                    var lastInputArrPos = this.inputArray.length -1;
+                    var lastInputArrPos = calculatorFunc.inputArray.length -1;
                     if(calculatorFunc.inputArray[lastInputArrPos].type == "numKey"){                                //CE clicked on a number
                         removeLastEntry();
-                        //this.changeLowerDisplayToZero();
                         calculatorFunc.ceClicked = true;
                     }else{                                                                                          //CE clicked on an operator
-                        //this.changeLowerDisplayToZero();
                         calculatorFunc.ceClicked = true;
                     }
                 }
@@ -202,12 +194,10 @@ app.factory('calculate',function($log){
 app.controller('calcController',function($log, calculate){
     this.upperDisplay = "";
     this.lowerDisplay;
-
     this.acceptKeyPressed = function(pressedKey){
         var inputObj = calculate.checkKeyPressed(pressedKey);
         this.acceptClickedBtn(inputObj.input,inputObj.inputType);
     };
-
     this.acceptClickedBtn = function(clickedInput,inputType){
         if(!calculate.validateAllInput(clickedInput,inputType)){
             return
@@ -215,13 +205,37 @@ app.controller('calcController',function($log, calculate){
         //recieves an inputs from the calculator button, and returns an array of clicked inputs(in object).
         // Upon the click of 2nd operator, if the returning array consists of 2# and 1op, it calculates, clears the array and insert the calculation into the array
         var inputArray = calculate.handleInput(clickedInput,inputType);
-        this.updateDisplay(inputArray,inputType);
+        this.updateDisplay(inputArray,inputType,clickedInput);
     };
 
-    this.updateDisplay = function(inputArray,inputType){
-        // if(inputType == "numKey"){
-        //     this.updateLowerDisplay(inputArray);
-        // }
+    this.updateDisplay = function(inputArray,inputType,clickedInput){
+        switch(inputType){
+            case "numKey" :
+                this.updateLowerDisplay(inputArray);
+                break;
+            case "equalSign":
+                this.clearUpperDisplay();
+                this.updateLowerDisplay(inputArray);
+                break;
+            case "clear":
+                switch(clickedInput){
+                    case "C":
+                        this.clearUpperDisplay();
+                        this.clearLowerDisplay();
+                        break;
+                    case "CE":
+                        this.changeLowerDisplayToZero();
+                        break;
+                }
+                break;
+            case "specialChar":
+                $log.log(inputArray);
+                this.updateUpperDisplay(inputArray);
+                break;
+        }
+
+
+
     };
 
 
@@ -229,9 +243,9 @@ app.controller('calcController',function($log, calculate){
         var lastNumPos = inputArray.length-1;
         this.lowerDisplay = inputArray[lastNumPos].value;
     };
-    this.updateUpperDisplay = function(currentOperator){
-        var lastInputArrayPos = this.inputArray.length-1;
-        this.upperDisplay += this.inputArray[lastInputArrayPos].value + currentOperator;
+    this.updateUpperDisplay = function(inputArray){
+        
+        
     };
     this.clearUpperDisplay = function(){
         this.upperDisplay = "";
