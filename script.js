@@ -10,8 +10,8 @@ app.controller('calcController',function($log){
     //   console.log(input);  
     // };
     this.updateLowerDisplay = function(){
-        var lastNumPos = this.inputArray.length-1;
-        this.lowerDisplay = this.inputArray[lastNumPos].value;
+      var lastNumPos = this.inputArray.length-1;
+      this.lowerDisplay = this.inputArray[lastNumPos].value;
     };
     this.updateUpperDisplay = function(currentOperator){
       var lastInputArrayPos = this.inputArray.length-1;
@@ -19,6 +19,16 @@ app.controller('calcController',function($log){
     };
     this.clearUpperDisplay = function(){
       this.upperDisplay = "";
+    };
+    this.clearLowerDisplay = function(){
+      this.lowerDisplay = "";
+    };
+    this.clearEntry = function(){
+      var lastNumPos = this.inputArray.length-1;
+      this.inputArray.splice(lastNumPos,1);
+    };
+    this.changeLowerDisplayToZero = function(){
+      this.lowerDisplay = 0;
     };
     //checks for the input type, calls approperiate functions according to the input
     this.acceptClickedKey = function(clickedInput,inputType){
@@ -51,6 +61,10 @@ app.controller('calcController',function($log){
                 this.equalSignClicked = false;
                 if(this.checkCalcEligible()){
                     $log.log("special char, ready to calculate",this.inputArray);
+                    if(this.ceClicked){
+                        createObj(0,"numKey",self);
+                        this.ceClicked = false;
+                    }
                     this.updateUpperDisplay(clickedInput);
                     var calculatedNum = this.doMath(parseFloat(this.inputArray[0].value),parseFloat(this.inputArray[2].value),this.inputArray[1].value); //would like to use a ref value instead of a hard number
                     this.inputArray = [];
@@ -59,6 +73,10 @@ app.controller('calcController',function($log){
                     createObj(clickedInput,inputType,self);
                 }else{
                     $log.log("special char, not ready to calculate",this.inputArray);
+                    if(this.ceClicked){
+                        createObj(0,"numKey",self);
+                        this.ceClicked = false;
+                    }
                     this.updateUpperDisplay(clickedInput);
                     createObj(clickedInput,inputType,self);
                 }
@@ -74,22 +92,24 @@ app.controller('calcController',function($log){
                     this.updateLowerDisplay();
                 }
                 break;
-            //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------//
             case 'clear' :
-                // if(clickedInput == "C"){//clear all condition
-                //     this.inputArray = [];
-                //     //call update display -for upper and lower display
-                // }else{ //clear entry condition
-                //     var lastArrayPos = this.inputArray.length-1;
-                //     if(this.ceClicked || this.inputArray.length == 0){ //need to deactivate after new input has been inputted
-                //         $log.warn('invalid');
-                //         return;
-                //     }
-                //     else{
-                //
-                //     }
-                // }
-                // //need to take account for clear buttons
+                if(clickedInput == "C"){            //clear all condition
+                    this.inputArray = [];
+                    this.clearUpperDisplay();
+                    this.clearLowerDisplay();
+                }else{                              //clear entry condition
+                    var lastInputArrPos = this.inputArray.length -1;
+                    if(this.inputArray[lastInputArrPos].type == "numKey"){       //CE clicked on a number
+                        this.clearEntry();
+                        this.changeLowerDisplayToZero();
+                        this.ceClicked = true;
+                        //if an operator is clicked, set the number before the operator as 0. if a number is clicked proceed as usual
+                    }else{                                                  //CE clicked on an operator
+                        this.changeLowerDisplayToZero();
+                        this.ceClicked = true;
+                        //if an operator is clicked, set the number before the operator as 0. if a number is clicked proceed as usual
+                    }
+                }
                 break;
         }
         $log.log(this.inputArray);
