@@ -64,15 +64,18 @@ app.factory('calculate',function($log){
         var self = this;
         switch(inputType){
             case 'numKey' :
-                if(calculatorFunc.ceClicked){
-                    calculatorFunc.ceClicked = false;
-                }
                 if(calculatorFunc.inputArray.length == 0){                                        //first number input condition
                     createObj(clickedInput,inputType,self);
+                    if(calculatorFunc.ceClicked){
+                        calculatorFunc.ceClicked = false;
+                    }
                 }else{
                     var arrayLastPosition = calculatorFunc.inputArray.length -1;
                     if(calculatorFunc.inputArray[arrayLastPosition].type == "numKey"){            //consecutive number input condition
-                        if(calculatorFunc.equalSignClicked){
+                        if(calculatorFunc.ceClicked){
+                            calculatorFunc.inputArray[arrayLastPosition].value += clickedInput;
+                            calculatorFunc.ceClicked = false;
+                        }else if(calculatorFunc.equalSignClicked){
                             calculatorFunc.inputArray = [];
                             createObj(clickedInput,inputType,self);
                             calculatorFunc.equalSignClicked = false;
