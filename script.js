@@ -64,6 +64,9 @@ app.factory('calculate',function($log){
         var self = this;
         switch(inputType){
             case 'numKey' :
+                if(calculatorFunc.ceClicked){
+                    calculatorFunc.ceClicked = false;
+                }
                 if(calculatorFunc.inputArray.length == 0){                                        //first number input condition
                     createObj(clickedInput,inputType,self);
                 }else{
@@ -78,9 +81,6 @@ app.factory('calculate',function($log){
                         }
                     }
                     else{
-                        if(calculatorFunc.ceClicked){
-                            calculatorFunc.ceClicked = false;
-                        }
                         createObj(clickedInput,inputType,self);                                     //alternate input condition
                     }
                 }
@@ -89,29 +89,19 @@ app.factory('calculate',function($log){
             case 'specialChar' :
                 calculatorFunc.equalSignClicked = false;
                 if(checkCalcEligible()){                                                            //ready to calculate : (num operator num)
-                    if(calculatorFunc.ceClicked){
-                        createObj(0,"numKey",self);
-                        calculatorFunc.ceClicked = false;
-                    }
-                    //this.updateUpperDisplay(clickedInput);
                     var calculatedNum = doMath(parseFloat(calculatorFunc.inputArray[0].value),parseFloat(calculatorFunc.inputArray[2].value),calculatorFunc.inputArray[1].value);
                     calculatorFunc.inputArray = [];
                     createObj(calculatedNum,"numKey",self);
-                    //this.updateLowerDisplay();
                     createObj(clickedInput,inputType,self);
                 }else{                                                                              //not yet ready to calculate
                     if(calculatorFunc.ceClicked){
                         createObj(0,"numKey",self);
-                        //this.updateUpperDisplay(clickedInput);
                         var sum = doMath(parseFloat(calculatorFunc.inputArray[0].value),parseFloat(calculatorFunc.inputArray[2].value),calculatorFunc.inputArray[1].value);
                         calculatorFunc.inputArray = [];
                         createObj(sum,"numKey",self);
                         calculatorFunc.ceClicked = false;
-                        //this.updateLowerDisplay();
                         createObj(clickedInput,inputType,self);
                     }else{
-                        //this.updateUpperDisplay(clickedInput);
-                        //this.updateLowerDisplay();
                         createObj(clickedInput,inputType,self);
                     }
                 }
@@ -194,6 +184,7 @@ app.factory('calculate',function($log){
 app.controller('calcController',function($log, calculate){
     this.upperDisplay = "";
     this.lowerDisplay;
+    this.lastClickedNum;
     this.acceptKeyPressed = function(pressedKey){
         var inputObj = calculate.checkKeyPressed(pressedKey);
         this.acceptClickedBtn(inputObj.input,inputObj.inputType);
@@ -205,23 +196,26 @@ app.controller('calcController',function($log, calculate){
         //recieves an inputs from the calculator button, and returns an array of clicked inputs(in object).
         // Upon the click of 2nd operator, if the returning array consists of 2# and 1op, it calculates, clears the array and insert the calculation into the array
         var inputArray = calculate.handleInput(clickedInput,inputType);
+        $log.log("inputArray : ",inputArray);
         this.updateDisplay(inputArray,inputType,clickedInput);
     };
-
     this.updateDisplay = function(inputArray,inputType,clickedInput){
         switch(inputType){
             case "numKey" :
-                this.updateLowerDisplay(inputArray);
+                this.lastClickedNum = inputArray[inputArray.length-1].value;    //actual input from the calculator
+                this.updateLowerDisplay(this.lastClickedNum);
                 break;
             case "equalSign":
+                this.lastClickedNum = inputArray[inputArray.length-1].value;        //the object generated through calculation. this has different meaning from this.lastClickedNum, which is an actual input from the calculator
                 this.clearUpperDisplay();
-                this.updateLowerDisplay(inputArray);
+                this.updateLowerDisplay(this.lastClickedNum);
                 break;
             case "clear":
                 switch(clickedInput){
                     case "C":
                         this.clearUpperDisplay();
                         this.clearLowerDisplay();
+                        // this.lastClickedNum = '';
                         break;
                     case "CE":
                         this.changeLowerDisplayToZero();
@@ -229,23 +223,21 @@ app.controller('calcController',function($log, calculate){
                 }
                 break;
             case "specialChar":
-                $log.log(inputArray);
+                var outputValue = inputArray[inputArray.length-2].value;
                 this.updateUpperDisplay(inputArray);
+                this.updateLowerDisplay(outputValue);
+                //
                 break;
         }
-
-
-
     };
-
-
-    this.updateLowerDisplay = function(inputArray){
-        var lastNumPos = inputArray.length-1;
-        this.lowerDisplay = inputArray[lastNumPos].value;
+    this.updateLowerDisplay = function(inputArrayNumObj){
+        //var lastNumPos = inputArray.length-1;
+        //this.lowerDisplay = inputArray[lastNumPos].value;
+        this.lowerDisplay = inputArrayNumObj;
     };
     this.updateUpperDisplay = function(inputArray){
-        
-        
+        var lastArrayPos = inputArray.length-1;
+        this.upperDisplay += this.lastClickedNum+inputArray[lastArrayPos].value;
     };
     this.clearUpperDisplay = function(){
         this.upperDisplay = "";
