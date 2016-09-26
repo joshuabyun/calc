@@ -4,13 +4,15 @@
 body{
     height:100vh;
     width:100vw;
-    background-color:white;
+    background-image: url("desk.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
     margin:0;
 }
 #calcContainerDiv{
     height:80%;
     width:30%;
-    background-color: lavender;
+    background-color: #343377;
     position: absolute;
     border-radius: 10%;
     left:50%;
@@ -32,14 +34,14 @@ body{
         top:2%;
     }
 }
-@media (max-width: 768px) and (orientation: portrait) {
+@media (min-width: 451px) and (max-width: 768px)  and (orientation: portrait) {
     #calcContainerDiv{
         height:75%;
         width:50%;
         top:10%;
     }
 }
-@media (max-width: 1024px) and (orientation: landscape) {
+@media (min-width:751px) and (max-width: 1024px) and (orientation: landscape) {
     #calcContainerDiv{
         height:75%;
         width:40%;
@@ -50,7 +52,7 @@ body{
 
 /*--------------------------Display---------------*/
 #outputDiv{
-    background-color: yellow;
+    background-color: #819DC3;
     position: absolute;
     height:20%;
     top:5%;
@@ -64,24 +66,24 @@ body{
     width:90%;
     top:10%;
     position: relative;
-    font-size:initial;
+    font-size:3.5vh;
     color:black;
     text-align: right;
 }
 #calculationScreen{
     height:30%;
-    background-color: lavender;
+    background-color: #FFF4C7;
 }
 #answerScreen{
     height:50%;
-    background-color: #5bc0de;
+    background-color: #FFE680;
 }
 /*--------------------------Key Input---------------*/
-#inputDiv *{
-    font-size: initial;
+.clear, .numKey, #equalSign, .specialChar{
+    font-size: 3vh;
 }
 #inputDiv{
-    background-color: lightgreen;
+    background-color: #819DC3;
     position: absolute;
     height: 70%;
     width: 90%;
@@ -97,9 +99,7 @@ body{
     top:5%;
     height:90%;
     width:65%;
-    background-color: mistyrose;
-    box-sizing: border-box;
-    border:1px solid mistyrose;
+    background-color: #FFEB98;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -139,10 +139,8 @@ body{
     top:5%;
     height:90%;
     width:25%;
-    background-color: #bbbbbb;
+    background-color: #FFEB98;
     text-align: center;
-    box-sizing: border-box;
-    border:1px solid #bbbbbb;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
 }
