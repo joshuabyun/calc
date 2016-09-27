@@ -20,29 +20,29 @@
     <div id="inputDiv">
         <div id="keyDiv">
             <div id="resetDiv" class="font_size">
-                <button class="clear" ng-click="cc.acceptClickedBtn('C','clear')">C</button>
-                <button class="clear" ng-click="cc.acceptClickedBtn('CE','clear')">CE</button>
+                <button class="clear" ng-click="cc.acceptClear('C','clear')">C</button>
+                <button class="clear" ng-click="cc.acceptClear('CE','clear')">CE</button>
             </div>
             <div id="numDiv" class="font_size">
-                <button class="numKey" ng-click="cc.acceptClickedBtn('7','numKey')">7</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('8','numKey')">8</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('9','numKey')">9</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('4','numKey')">4</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('5','numKey')">5</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('6','numKey')">6</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('1','numKey')">1</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('2','numKey')">2</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('3','numKey')">3</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('0','numKey')">0</button>
-                <button class="numKey" ng-click="cc.acceptClickedBtn('.','numKey')">.</button>
-                <button id="equalSign" ng-click="cc.acceptClickedBtn('=','equalSign')">=</button>
+                <button class="numKey" ng-click="cc.acceptNum('7','numKey')">7</button>
+                <button class="numKey" ng-click="cc.acceptNum('8','numKey')">8</button>
+                <button class="numKey" ng-click="cc.acceptNum('9','numKey')">9</button>
+                <button class="numKey" ng-click="cc.acceptNum('4','numKey')">4</button>
+                <button class="numKey" ng-click="cc.acceptNum('5','numKey')">5</button>
+                <button class="numKey" ng-click="cc.acceptNum('6','numKey')">6</button>
+                <button class="numKey" ng-click="cc.acceptNum('1','numKey')">1</button>
+                <button class="numKey" ng-click="cc.acceptNum('2','numKey')">2</button>
+                <button class="numKey" ng-click="cc.acceptNum('3','numKey')">3</button>
+                <button class="numKey" ng-click="cc.acceptNum('0','numKey')">0</button>
+                <button class="numKey" ng-click="cc.acceptNum('.','numKey')">.</button>
+                <button id="equalSign" ng-click="cc.acceptEqual('=','equalSign')">=</button>
             </div>
         </div>
         <div id="operatorDiv" class="font_size">
-            <button class="specialChar" ng-click="cc.acceptClickedBtn('/','specialChar')">/</button>
-            <button class="specialChar" ng-click="cc.acceptClickedBtn('X','specialChar')">X</button>
-            <button class="specialChar" ng-click="cc.acceptClickedBtn('-','specialChar')">-</button>
-            <button class="specialChar" ng-click="cc.acceptClickedBtn('+','specialChar')">+</button>
+            <button class="specialChar" ng-click="cc.acceptOperator('/','operator')">/</button>
+            <button class="specialChar" ng-click="cc.acceptOperator('X','operator')">X</button>
+            <button class="specialChar" ng-click="cc.acceptOperator('-','operator')">-</button>
+            <button class="specialChar" ng-click="cc.acceptOperator('+','operator')">+</button>
         </div>
     </div>
 </div>
