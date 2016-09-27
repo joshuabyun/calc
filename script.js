@@ -1,37 +1,4 @@
 var app = angular.module('calcApp', []);
-app.factory('calculate',function($log){
-    var calculatorFunc = {};
-
-
-    var doMath = function(num1, num2, operator){                            //actual calculation
-        $log.log(num1, num2, operator);
-        var answer;
-        switch (operator){
-            case '+':
-                answer = num1 + num2;
-                return answer;
-                break;
-            case '-':
-                answer = num1 - num2;
-                return answer;
-                break;
-            case 'X':
-                answer = num1 * num2;
-                return answer;
-                break;
-            case '/':
-                answer = num1 / num2;
-                if(num2 == 0){
-                    return "Error";
-                }
-                return answer;
-                break;
-        }
-    };
-
-
-    return calculatorFunc;
-});
 
 app.controller('calcController',function($log, calculate){
     this.inputHistory = [];
@@ -40,6 +7,10 @@ app.controller('calcController',function($log, calculate){
     this.upperDisplay = '';
 
     this.acceptClear = function(){
+        //if C
+            //clear inputHistory, calcExpression
+        //if CE
+            //
 
     };
     this.acceptNum = function(){
@@ -84,7 +55,8 @@ app.controller('calcController',function($log, calculate){
             //if CE
                 //insert 0 to the array
                 //insert clicked operator to the array
-            //
+            //if equal
+                //insert operator to the array
     }
 });
 
