@@ -15,9 +15,6 @@ app.factory('calculate',function($log){
         }
     };
     calculatorFunc.createInputObj = function(inputValue,inputType,flexibleVal){
-      //value : string(# and +)
-      //type : 'numKey' or 'operator'
-      //flexible : true when C or CE or Equal sign initiates the creation
       var inputObj = {};
       switch(inputValue){
           case ".":
@@ -42,7 +39,6 @@ app.factory('calculate',function($log){
             }
         }
     };
-
     //params  (type:number, type:number, type:string)
     calculatorFunc.doMath = function(num1, num2, operator){
         var answer;
@@ -65,6 +61,5 @@ app.factory('calculate',function($log){
         }
         return answer.toString();
     };
-    
     return calculatorFunc;
 });

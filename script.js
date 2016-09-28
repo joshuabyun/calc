@@ -1,9 +1,7 @@
 var app = angular.module('calcApp', []);
-//{value: '1',type:num,flexible:0}
 app.controller('calcController',function($log, calculate){
     //always keep the value as a string. just change the the type to number only calculating using Number();
     //need to create a function that creates a input object : when creating a number object. if the value is ".", the value should be "0."
-    
     this.inputHistory = [
         {value: '0',
          type:'numKey',
@@ -12,10 +10,6 @@ app.controller('calcController',function($log, calculate){
     this.calcExpression = ['0'];
     this.lowerDisplay ='0';
     this.upperDisplay = '';
-    $log.log('inputHistor on document laod', this.inputHistory);
-    $log.log('inputHistor on document laod', this.calcExpression);
-    
-
     this.removeLastInputObj = function(){
         var lastNumberInputPos = this.inputHistory.length-1;
         this.inputHistory.splice(lastNumberInputPos,1);
@@ -60,6 +54,42 @@ app.controller('calcController',function($log, calculate){
         var param3 = calcExpression[1];
         return calculate.doMath(param1,param2,param3);
     };
+    this.acceptEqual = function(){
+        if(calculate.validateExpressionToCalc(this.calcExpression) && this.calcExpression.length == 3){
+            var finalOutputVal = this.callDoMath(this.calcExpression);
+            this.updateCalcExpression("clearAll");
+            this.inputHistory = [];
+            var finalOutputObj = calculate.createInputObj(finalOutputVal,"numKey",true)
+            this.insertInputObj(finalOutputObj);
+            this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+            this.upperDisplay = "";
+        }
+    };
+    this.acceptNum = function(numberInput,inputType){
+        var lastInputPosition = this.inputHistory.length-1;
+        if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
+            var inputObj = calculate.createInputObj(numberInput,inputType,false);
+            this.insertInputObj(inputObj);
+            this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+            //okay to insert the input as a new obj
+        }else{
+            if(this.inputHistory[lastInputPosition].flexible){
+                var inputObjFlex = calculate.createInputObj(numberInput,inputType,false);
+                this.removeLastInputObj();
+                this.insertInputObj(inputObjFlex);
+                this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                //replace last input number with current numberInput (create new obj)
+            }else{
+                if(calculate.validateNumber(numberInput,this.inputHistory[lastInputPosition].value)){
+                    this.appendValToLastInput(numberInput);
+                    this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                    //append the value to the last input
+                }else{
+                    //multiple decimal : error sound
+                }
+            }
+        }
+    };
     this.acceptOperator = function(operatorInput,inputType){
         var lastInputPosition = this.inputHistory.length-1;
         if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
@@ -69,28 +99,16 @@ app.controller('calcController',function($log, calculate){
             if(calculate.validateExpressionToCalc(this.calcExpression)){
                 this.updateCalcExpression("splice",this.callDoMath(this.calcExpression));
             }
-            
-
-
-
+            this.lowerDisplay = this.calcExpression[0];
+            this.upperDisplay = "";
+            for(var index in this.inputHistory){
+                this.upperDisplay += this.inputHistory[index].value;
+            }
         }else{
             //consecutive operator : error sound
         }
     };
-    this.acceptEqual = function(){
-        if(calculate.validateExpressionToCalc(this.calcExpression) && this.calcExpression.length == 3){
-            var finalOutput = this.callDoMath(this.calcExpression);
-            this.updateCalcExpression("clearAll");
-            
-            
-
-        }
-
-
-    };
     this.acceptClear = function(clearVal,inputType){
-        //check if its C or CE
-        //use switch
         switch(clearVal){
             case "CE":
                 //check previous input obj
@@ -100,24 +118,12 @@ app.controller('calcController',function($log, calculate){
                         this.removeLastInputObj();
                         var placeHolderInput1 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput1);
-
-
-
-
-
-                        //remove last number obj
-                        //insert flexible 0
+                        this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
                         break;
                     case "operator":
                         var placeHolderInput2 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput2);
-
-
-
-
-
-
-                        //insert flexible 0
+                        this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
                         break;
                 }
                 break;
@@ -126,51 +132,9 @@ app.controller('calcController',function($log, calculate){
                 this.updateCalcExpression("clearAll");
                 var initInput = calculate.createInputObj("0","numKey",true);
                 this.insertInputObj(initInput);
-
-
-
-
-
+                this.lowerDisplay = "0";
                 break;
         }
     };
-    this.acceptNum = function(numberInput,inputType){
-        var lastInputPosition = this.inputHistory.length-1;
-        if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
-            var inputObj = calculate.createInputObj(numberInput,inputType,false);
-            this.insertInputObj(inputObj);
-
-
-
-
-
-            //okay to insert the input as a new obj
-        }else{
-            if(this.inputHistory[lastInputPosition].flexible){
-                var inputObjFlex = calculate.createInputObj(numberInput,inputType,false);
-                this.removeLastInputObj();
-                this.insertInputObj(inputObjFlex);
-
-
-
-
-
-                //replace last input number with current numberInput (create new obj)
-            }else{
-                if(calculate.validateNumber(numberInput,this.inputHistory[lastInputPosition].value)){
-                    this.appendValToLastInput(numberInput);
-
-
-
-
-
-                    //append the value to the last input
-                }else{
-                    //multiple decimal : error sound
-                }
-            }
-        }
-    };
-
 });
 
