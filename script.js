@@ -15,21 +15,7 @@ app.controller('calcController',function($log, calculate){
     $log.log('inputHistor on document laod', this.inputHistory);
     $log.log('inputHistor on document laod', this.calcExpression);
     
-    this.checkCalcEligible = function(updateValType){
-        if(updateValType == "operator"){
-            if(calculate.validateExpressionToCalc(this.calcExpression)){
-                this.callDoMath(this.calcExpression);
-                $log.log('calcEligible - this.calcExpression : ', this.calcExpression);
-            }
-        }
-    };
-    this.callDoMath = function(calcExpression){
-        var param1 = Number(calcExpression[0]);
-        var param2 = Number(calcExpression[2]);
-        var param3 = calcExpression[1];
-        var doMathOutput = calculate.doMath(param1,param2,param3);
-        this.updateCalcExpression("splice",doMathOutput);
-    };
+
     this.removeLastInputObj = function(){
         var lastNumberInputPos = this.inputHistory.length-1;
         this.inputHistory.splice(lastNumberInputPos,1);
@@ -37,7 +23,7 @@ app.controller('calcController',function($log, calculate){
     };
     this.insertInputObj = function(inputObj){
         this.inputHistory.push(inputObj);
-        this.updateCalcExpression('insert',inputObj.value,inputObj.type);
+        this.updateCalcExpression('insert',inputObj.value);
         $log.info('updated inputHistory via newObj creation',this.inputHistory);
     };
     this.appendValToLastInput = function(numberInput){
@@ -46,7 +32,7 @@ app.controller('calcController',function($log, calculate){
         this.updateCalcExpression('append',this.inputHistory[inputHistoryLastPos].value);
         $log.info('updated inputHistory via numberAppend',this.inputHistory[inputHistoryLastPos].value);
     };
-    this.updateCalcExpression = function(updateToPerform,updatedVal,updatedValType){
+    this.updateCalcExpression = function(updateToPerform,updatedVal){
         var calcExpressionLastPos = this.calcExpression.length-1;
         switch(updateToPerform){
             case "remove" :
@@ -54,7 +40,7 @@ app.controller('calcController',function($log, calculate){
                 break;
             case "insert" :
                 this.calcExpression.push(updatedVal);
-                this.checkCalcEligible(updatedValType);
+
                 break;
             case "append" :
                 this.calcExpression[calcExpressionLastPos] = updatedVal;
@@ -68,11 +54,39 @@ app.controller('calcController',function($log, calculate){
         }
         $log.info('updatedCalcExpression',this.calcExpression);
     };
+    this.callDoMath = function(calcExpression){
+        var param1 = Number(calcExpression[0]);
+        var param2 = Number(calcExpression[2]);
+        var param3 = calcExpression[1];
+        return calculate.doMath(param1,param2,param3);
+    };
+    this.acceptOperator = function(operatorInput,inputType){
+        var lastInputPosition = this.inputHistory.length-1;
+        if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
+            //okay to insert the input as a new obj
+            var operatorObj = calculate.createInputObj(operatorInput,inputType,false);
+            this.insertInputObj(operatorObj);
+            if(calculate.validateExpressionToCalc(this.calcExpression)){
+                this.updateCalcExpression("splice",this.callDoMath(this.calcExpression));
+            }
+            
+
+
+
+        }else{
+            //consecutive operator : error sound
+        }
+    };
     this.acceptEqual = function(){
         if(calculate.validateExpressionToCalc(this.calcExpression) && this.calcExpression.length == 3){
-            this.callDoMath(this.calcExpression);
-            $log.log('final value : ', this.calcExpression);
+            var finalOutput = this.callDoMath(this.calcExpression);
+            this.updateCalcExpression("clearAll");
+            
+            
+
         }
+
+
     };
     this.acceptClear = function(clearVal,inputType){
         //check if its C or CE
@@ -86,12 +100,23 @@ app.controller('calcController',function($log, calculate){
                         this.removeLastInputObj();
                         var placeHolderInput1 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput1);
+
+
+
+
+
                         //remove last number obj
                         //insert flexible 0
                         break;
                     case "operator":
                         var placeHolderInput2 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput2);
+
+
+
+
+
+
                         //insert flexible 0
                         break;
                 }
@@ -101,6 +126,11 @@ app.controller('calcController',function($log, calculate){
                 this.updateCalcExpression("clearAll");
                 var initInput = calculate.createInputObj("0","numKey",true);
                 this.insertInputObj(initInput);
+
+
+
+
+
                 break;
         }
     };
@@ -109,16 +139,31 @@ app.controller('calcController',function($log, calculate){
         if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
             var inputObj = calculate.createInputObj(numberInput,inputType,false);
             this.insertInputObj(inputObj);
+
+
+
+
+
             //okay to insert the input as a new obj
         }else{
             if(this.inputHistory[lastInputPosition].flexible){
                 var inputObjFlex = calculate.createInputObj(numberInput,inputType,false);
                 this.removeLastInputObj();
                 this.insertInputObj(inputObjFlex);
+
+
+
+
+
                 //replace last input number with current numberInput (create new obj)
             }else{
                 if(calculate.validateNumber(numberInput,this.inputHistory[lastInputPosition].value)){
                     this.appendValToLastInput(numberInput);
+
+
+
+
+
                     //append the value to the last input
                 }else{
                     //multiple decimal : error sound
@@ -126,15 +171,6 @@ app.controller('calcController',function($log, calculate){
             }
         }
     };
-    this.acceptOperator = function(operatorInput,inputType){
-        var lastInputPosition = this.inputHistory.length-1;
-        if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
-            //okay to insert the input as a new obj
-            var operatorObj = calculate.createInputObj(operatorInput,inputType,false);
-            this.insertInputObj(operatorObj);
-        }else{
-            //consecutive operator : error sound
-        }
-    }
+
 });
 
