@@ -18,14 +18,17 @@ app.controller('calcController',function($log, calculate){
     this.checkCalcEligible = function(updateValType){
         if(updateValType == "operator"){
             if(calculate.validateExpressionToCalc(this.calcExpression)){
-                var param1 = Number(this.calcExpression[0]);
-                var param2 = Number(this.calcExpression[2]);
-                var param3 = this.calcExpression[1];
+                this.callDoMath(this.calcExpression);
                 $log.log('calcEligible - this.calcExpression : ', this.calcExpression);
-                var doMathOutput = calculate.doMath(param1,param2,param3);
-                this.updateCalcExpression("splice",doMathOutput);
             }
         }
+    };
+    this.callDoMath = function(calcExpression){
+        var param1 = Number(calcExpression[0]);
+        var param2 = Number(calcExpression[2]);
+        var param3 = calcExpression[1];
+        var doMathOutput = calculate.doMath(param1,param2,param3);
+        this.updateCalcExpression("splice",doMathOutput);
     };
     this.removeLastInputObj = function(){
         var lastNumberInputPos = this.inputHistory.length-1;
@@ -43,7 +46,7 @@ app.controller('calcController',function($log, calculate){
         this.updateCalcExpression('append',this.inputHistory[inputHistoryLastPos].value);
         $log.info('updated inputHistory via numberAppend',this.inputHistory[inputHistoryLastPos].value);
     };
-    this.updateCalcExpression = function(updateToPerform,updatedVal,updateValType){
+    this.updateCalcExpression = function(updateToPerform,updatedVal,updatedValType){
         var calcExpressionLastPos = this.calcExpression.length-1;
         switch(updateToPerform){
             case "remove" :
@@ -51,7 +54,7 @@ app.controller('calcController',function($log, calculate){
                 break;
             case "insert" :
                 this.calcExpression.push(updatedVal);
-                this.checkCalcEligible(updateValType);
+                this.checkCalcEligible(updatedValType);
                 break;
             case "append" :
                 this.calcExpression[calcExpressionLastPos] = updatedVal;
@@ -66,7 +69,10 @@ app.controller('calcController',function($log, calculate){
         $log.info('updatedCalcExpression',this.calcExpression);
     };
     this.acceptEqual = function(){
-        //check if the existing expression can be calculated [# op #]
+        if(calculate.validateExpressionToCalc(this.calcExpression) && this.calcExpression.length == 3){
+            this.callDoMath(this.calcExpression);
+            $log.log('final value : ', this.calcExpression);
+        }
     };
     this.acceptClear = function(clearVal,inputType){
         //check if its C or CE
