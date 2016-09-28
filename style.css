@@ -68,12 +68,12 @@ body{
     position: relative;
     font-size:3.5vh;
     color:black;
-    text-align: right;
-
+    /*text-align: right;*/
 }
 #calculationScreen{
     height:30%;
     background-color: #FFF4C7;
+    white-space: nowrap;
 }
 #answerScreen{
     height:50%;

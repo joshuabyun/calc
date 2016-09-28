@@ -94,6 +94,11 @@ app.controller('calcController',function($log, calculate){
         var lastInputPosition = this.inputHistory.length-1;
         if(calculate.validateExpressionInput(inputType,this.inputHistory[lastInputPosition].type)){
             //okay to insert the input as a new obj
+            //check if last number has decimal at the end.
+            //then change the value of the last number to .0
+            if(this.inputHistory[this.inputHistory.length-1].value.indexOf(".") == this.inputHistory[this.inputHistory.length-1].value.length-1){
+                this.appendValToLastInput("0");
+            }
             var operatorObj = calculate.createInputObj(operatorInput,inputType,false);
             this.insertInputObj(operatorObj);
             if(calculate.validateExpressionToCalc(this.calcExpression)){
@@ -132,6 +137,7 @@ app.controller('calcController',function($log, calculate){
                 this.updateCalcExpression("clearAll");
                 var initInput = calculate.createInputObj("0","numKey",true);
                 this.insertInputObj(initInput);
+                this.upperDisplay = "";
                 this.lowerDisplay = "0";
                 break;
         }

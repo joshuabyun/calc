@@ -22,6 +22,11 @@ app.factory('calculate',function($log){
               inputObj.type = inputType;
               inputObj.flexible = flexibleVal;
               break;
+          case "0":
+              inputObj.value = "0.";
+              inputObj.type = inputType;
+              inputObj.flexible = flexibleVal;
+              break;
           default :
               inputObj.value = inputValue;
               inputObj.type = inputType;
