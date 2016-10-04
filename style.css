@@ -12,7 +12,7 @@ body{
 #calcContainerDiv{
     height:80%;
     width:30%;
-    background-color: #343377;
+    background-color: #FBD071;
     position: absolute;
     border-radius: 10%;
     left:50%;
@@ -52,7 +52,7 @@ body{
 
 /*--------------------------Display---------------*/
 #outputDiv{
-    background-color: #819DC3;
+    background-color: #005956;
     position: absolute;
     height:20%;
     top:5%;
@@ -68,23 +68,24 @@ body{
     position: relative;
     font-size:3.5vh;
     color:black;
-    /*text-align: right;*/
+    background-color: #DCFFFF;
+    text-align: right;
 }
 #calculationScreen{
-    height:30%;
-    background-color: #FFF4C7;
-    white-space: nowrap;
+    height:50%;
+    word-wrap: break-word;
+    border-bottom: 1px dotted black;
+    box-sizing: border-box;
 }
 #answerScreen{
-    height:50%;
-    background-color: #FFE680;
+    height:30%;
 }
 /*--------------------------Key Input---------------*/
 .clear, .numKey, #equalSign, .specialChar{
     font-size: 3vh;
 }
 #inputDiv{
-    background-color: #819DC3;
+    background-color: #449696;
     position: absolute;
     height: 70%;
     width: 90%;
@@ -100,7 +101,7 @@ body{
     top:5%;
     height:90%;
     width:65%;
-    background-color: #FFEB98;
+    background-color: #DCFFFF;
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
@@ -140,7 +141,7 @@ body{
     top:5%;
     height:90%;
     width:25%;
-    background-color: #FFEB98;
+    background-color: #DCFFFF;
     text-align: center;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
