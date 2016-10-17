@@ -57,11 +57,16 @@ app.controller('calcController',function($log, calculate){
     this.acceptEqual = function(){
         if(calculate.validateExpressionToCalc(this.calcExpression) && this.calcExpression.length == 3){
             var finalOutputVal = this.callDoMath(this.calcExpression);
+            console.log("finalOutputVal : ",finalOutputVal);
             this.updateCalcExpression("clearAll");
             this.inputHistory = [];
-            var finalOutputObj = calculate.createInputObj(finalOutputVal,"numKey",true)
+            var finalOutputObj = calculate.createInputObj(finalOutputVal,"numKey",true);
             this.insertInputObj(finalOutputObj);
-            this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+            if(this.calcExpression[this.calcExpression.length-1] == "0."){
+                this.lowerDisplay = "0";
+            }else{
+                this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+            }
             this.upperDisplay = "";
         }
     };
@@ -123,7 +128,11 @@ app.controller('calcController',function($log, calculate){
                         this.removeLastInputObj();
                         var placeHolderInput1 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput1);
-                        this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                        if(this.calcExpression[this.calcExpression.length-1] == "0."){
+                            this.lowerDisplay = "0";
+                        }else{
+                            this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                        }
                         break;
                     case "operator":
                         var placeHolderInput2 = calculate.createInputObj('0',"numKey",true);
