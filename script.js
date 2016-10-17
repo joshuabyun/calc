@@ -137,7 +137,11 @@ app.controller('calcController',function($log, calculate){
                     case "operator":
                         var placeHolderInput2 = calculate.createInputObj('0',"numKey",true);
                         this.insertInputObj(placeHolderInput2);
-                        this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                        if(this.calcExpression[this.calcExpression.length-1] == "0."){
+                            this.lowerDisplay = "0";
+                        }else{
+                            this.lowerDisplay = this.calcExpression[this.calcExpression.length-1];
+                        }
                         break;
                 }
                 break;
